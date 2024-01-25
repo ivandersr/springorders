@@ -15,7 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
-public class Category implements Serializable {
+public class Product implements Serializable {
 	/**
 	 * 
 	 */
@@ -25,18 +25,18 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private Double price;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="product_category", joinColumns = @JoinColumn(name="category_id"), inverseJoinColumns = @JoinColumn(name="product_id"))	
-	private List<Product> products = new ArrayList<>();
-
-	public Category() {
-	}
-
-	public Category(Integer id, String name) {
-		super();
+	@JoinTable(name="product_category", joinColumns = @JoinColumn(name="product_id"), inverseJoinColumns = @JoinColumn(name="category_id"))	
+	private List<Category> categories = new ArrayList<>();
+	
+	public Product() {}
+	
+	public Product(Integer id, String name, Double price) {
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -54,14 +54,22 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	
-	public List<Product> getProducts() {
-		return this.products;
+	public List<Category> getCategories() {
+		return this.categories;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id, name, price);
 	}
 
 	@Override
@@ -72,8 +80,9 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		Product other = (Product) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(price, other.price);
 	}
-
+	
+	
 }
