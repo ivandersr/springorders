@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class Category implements Serializable {
 	private Integer id;
 	private String name;
 	
+	@JsonManagedReference
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="product_category", joinColumns = @JoinColumn(name="category_id"), inverseJoinColumns = @JoinColumn(name="product_id"))	
 	private List<Product> products = new ArrayList<>();

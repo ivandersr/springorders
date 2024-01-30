@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ivandersr.springorders.domain.Category;
 import com.ivandersr.springorders.repositories.CategoryRepository;
+import com.ivandersr.springorders.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -15,6 +16,7 @@ public class CategoryService {
 	
 	public Category find(Integer id) {
 		Optional<Category> category = repository.findById(id);
-		return category.orElse(null);
+		
+		return category.orElseThrow(() -> new ObjectNotFoundException("Not found! Id: " + id + ", entity: " + Category.class.getName()));
 	}
 }
